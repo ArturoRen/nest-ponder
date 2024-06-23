@@ -1,19 +1,28 @@
-name: SyncToGitee
-'on':
+name: Sync To Gitee
+
+env:
+  # 7 GiB by default on GitHub, setting to 6 GiB
+  # https://docs.github.com/en/actions/using-github-hosted-runners/about-github-hosted-runners#supported-runners-and-hardware-resources
+  NODE_OPTIONS: --max-old-space-size=6144
+on:
   push:
-    branches:
-      - master
+    branches: [master]
+
 jobs:
   repo-sync:
     runs-on: ubuntu-latest
     steps:
-      - name: Mirror with force push (git push -f)
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Mirror the Github organization repos to Gitee.
         uses: Yikun/hub-mirror-action@master
         with:
-          src: github/ArturoRen
-          dst: gitee/chen_qi
-          dst_key: '${{ secrets.GITEE_PRIVATE_KEY }}'
-          dst_token: '${{ secrets.GITEE_TOKEN }}'
-          static_list: pear-rec
+          src: 'github/ArturoRen'
+          dst: 'gitee/chen_qi'
+          dst_key: ${{ secrets.GITEE_PRIVATE_KEY }}
+          dst_token: ${{ secrets.GITEE_TOKEN }}
+          static_list: 'nest-ponder'
           force_update: true
           debug: true
+
