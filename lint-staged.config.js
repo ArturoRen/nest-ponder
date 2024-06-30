@@ -1,3 +1,5 @@
 export default {
-    "*.ts": "npm run lint"
+    "*.{js,ts,jsx,tsx}": [
+        "eslint --fix"
+    ]
 }
